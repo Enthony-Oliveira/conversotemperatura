@@ -4,13 +4,12 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'reac
 export default function App() {
 
   const [valor, setValor] = useState('');
-  const [resultado, setResultado] = useState(null);
 
   function conversor() {
 
-    const numero = Number(valor);
+    const numero = Number(valor.replace(',', '.'));
 
-    if (valor.trim === '') {
+    if (valor.trim() === '' || isNaN(numero)) {
       Alert.alert("Digite um valor valido");
       return;
 
@@ -26,7 +25,6 @@ export default function App() {
           text: "Ok",
           onPress: () => {
             setValor('');
-            setResultado(null);
           }
         }
       ]
@@ -54,8 +52,6 @@ export default function App() {
         <TouchableOpacity style={styles.btn} onPress={conversor}>
           <Text style={styles.btntext}>Converter</Text>
         </TouchableOpacity>
-
-        {resultado && (<Text style={styles.textresultado}>{resultado}</Text>)}
 
       </View>
 
