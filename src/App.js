@@ -1,18 +1,21 @@
 import { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
+import Toast from "react-native-toast-message";
 
 export default function App() {
 
   const [valor, setValor] = useState('');
 
   function conversor() {
-
     const numero = Number(valor.replace(',', '.'));
 
     if (valor.trim() === '' || isNaN(numero)) {
-      Alert.alert("Digite um valor valido");
+      Toast.show({
+        type: 'error',
+        text1: '⚠ Campo inválido',
+        text2: 'Digite um valor antes de converter.',
+      });
       return;
-
     }
 
     const fahrenheit = (numero * 1.8) + 32;
@@ -23,13 +26,10 @@ export default function App() {
       [
         {
           text: "Ok",
-          onPress: () => {
-            setValor('');
-          }
+          onPress: () => setValor('')
         }
       ]
     );
-
   }
 
   return (
@@ -39,15 +39,15 @@ export default function App() {
       </View>
 
       <View style={styles.content}>
-        <Text style={styles.titleconteudo} >Digite a Temperatura</Text>
+        <Text style={styles.titleconteudo}>Digite a Temperatura</Text>
+
         <TextInput
           placeholder='Digite Aqui'
           style={styles.conteudo}
           value={valor}
           onChangeText={setValor}
-          keyboardType='numeric'>
-
-        </TextInput>
+          keyboardType='numeric'
+        />
 
         <TouchableOpacity style={styles.btn} onPress={conversor}>
           <Text style={styles.btntext}>Converter</Text>
@@ -55,9 +55,12 @@ export default function App() {
 
       </View>
 
+      {/* Componente do Toast na tela */}
+      <Toast position="bottom" />
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
